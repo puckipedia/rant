@@ -19,7 +19,7 @@ function update_rant() {
 		make_it_rant();
 	}
 
-	current_rant.innerHTML = rant_range.value;
+	current_rant.innerHTML = Math.floor(rant_range.value * 100);
 }
 
 var rant_valid = false;
@@ -40,8 +40,10 @@ function make_it_rant() {
 	rant.value = "";
 	for (var word_i in to_make_ranty) {
 		var word = to_make_ranty[word_i];
-		if (Math.random() <= (1.0 / rant_range.value))
+		if (Math.random() <= rant_range.value)
 			word += " FUCKING";
-		rant.value += word + " ";
+		rant.value += word;
+		if (word_i != to_make_ranty.length - 1)
+			rant.value += " ";
 	}
 }
