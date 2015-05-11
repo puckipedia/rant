@@ -16,7 +16,7 @@ function invalidate_rant() {
 
 function update_rant() {
 	if (rant_valid) {
-		make_it_rant();
+		make_it_rant(true);
 	}
 
 	current_rant.innerHTML = Math.floor(rant_range.value * 100);
@@ -26,8 +26,8 @@ var rant_valid = false;
 var rant_val;
 var rant_seed;
 
-function make_it_rant() {
-	if (!rant_valid) {
+function make_it_rant(force) {
+	if (!rant_valid || force == undefined) {
 		rant_seed = (new Date()).getTime();
 		Math.seedrandom(rant_seed);
 		rant_valid = true;
@@ -36,14 +36,11 @@ function make_it_rant() {
 		Math.seedrandom(rant_seed);
 	}
 
-	var to_make_ranty = rant_val.split(" ");
-	rant.value = "";
-	for (var word_i in to_make_ranty) {
-		var word = to_make_ranty[word_i];
-		if (Math.random() <= rant_range.value)
-			word += " FUCKING";
-		rant.value += word;
-		if (word_i != to_make_ranty.length - 1)
-			rant.value += " ";
-	}
+	var rant_amount = rant_range.value;
+
+	rant.value = rant_val.replace(/ /g, function() {
+		if (Math.random() <= rant_amount)
+			return " FUCKING ";
+		return " ";
+	});
 }
